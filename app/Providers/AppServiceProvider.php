@@ -65,7 +65,9 @@ class AppServiceProvider extends ServiceProvider
             ];
 
             if (! in_array($firstSegment, $settingsExcluded)) {
-                $view->with('app_settings', Setting::first());
+                $settings = Schema::hasTable('settings') ? Setting::first() : null;
+                // Fresh migrate without seeders leaves no row — login would 500 on null.
+                $view->with('app_settings', $settings ?? new Setting);
             }
 
             // Category data is only needed by the main application views; keep it
