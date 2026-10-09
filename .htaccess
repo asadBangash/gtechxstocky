@@ -1,36 +1,36 @@
-# Use this file ONLY when hPanel document root is the Laravel project root
-# (the folder that contains artisan), NOT .../public.
-# Best practice on Hostinger: set document root to .../gtechx/public and you
-# do not need rewrite rules here.
+# Skyline-style hosting: document root = project folder (contains artisan + this file).
+# Laragon local: point the vhost at public/ instead (standard Laravel).
+
+DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
-    Options +FollowSymLinks -Indexes
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
     RewriteEngine On
 
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Already under /public — do not rewrite again
-    RewriteCond %{REQUEST_URI} ^/public/ [OR]
-    RewriteCond %{REQUEST_URI} ^/public$
-    RewriteRule ^ - [L]
-
-    # Static file inside public/ (css, js, deploy-check.php, etc.)
-    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
+    # Stocky static assets live under public/ but URLs are /js, /images, etc.
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -d
     RewriteRule ^(.+)$ public/$1 [L]
 
-    # Everything else → Laravel front controller
-    RewriteRule ^(.*)$ public/index.php [L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
 </IfModule>
 
-<IfModule mod_authz_core.c>
-    <Files .env>
-        Require all denied
-    </Files>
-</IfModule>
-<IfModule !mod_authz_core.c>
-    <Files .env>
-        Order allow,deny
-        Deny from all
-    </Files>
+<Files ~ "\.(env|json|config.js|md|gitignore|gitattributes|lock)$">
+    Require all denied
+</Files>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
 </IfModule>
