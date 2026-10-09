@@ -17,6 +17,14 @@ $lines[] = 'PHP: '.PHP_VERSION.' (need >= 8.2)';
 $lines[] = 'Document root: '.($_SERVER['DOCUMENT_ROOT'] ?? '(unknown)');
 $lines[] = 'This script: '.__FILE__;
 $lines[] = 'Project root (expected parent of public/): '.$root;
+$docRoot = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT'] ?? ''), '/');
+$publicDir = rtrim(str_replace('\\', '/', __DIR__), '/');
+if ($docRoot === $publicDir) {
+    $lines[] = 'Document root: CORRECT (points at public/)';
+} else {
+    $lines[] = 'Document root: WRONG — should be exactly: '.$publicDir;
+    $lines[] = '  (You are using project root; / often returns HTTP 500 via server.php rewrite.)';
+}
 $lines[] = '';
 
 $lines[] = 'vendor/autoload.php: '.$ok(is_file($root.'/vendor/autoload.php'));
@@ -51,6 +59,24 @@ if (is_file($root.'/vendor/autoload.php')) {
         $lines[] = 'APP_ENV: '.config('app.env');
         $lines[] = 'APP_DEBUG: '.(config('app.debug') ? 'true' : 'false');
         $lines[] = 'APP_URL: '.config('app.url');
+
+        $lines[] = '';
+        $lines[] = '--- Simulated web request to / (same as homepage) ---';
+        try {
+            $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+            $request = Illuminate\Http\Request::create('/', 'GET');
+            $response = $kernel->handle($request);
+            $lines[] = 'HTTP status: '.$response->getStatusCode();
+            if ($response->getStatusCode() >= 500) {
+                $body = $response->getContent();
+                $lines[] = 'Response (first 500 chars): '.substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 500);
+            }
+            $kernel->terminate($request, $response);
+        } catch (Throwable $e) {
+            $lines[] = 'Homepage request: FAIL';
+            $lines[] = get_class($e).': '.$e->getMessage();
+            $lines[] = 'at '.$e->getFile().':'.$e->getLine();
+        }
     } catch (Throwable $e) {
         $lines[] = 'Laravel bootstrap: FAIL';
         $lines[] = $e->getMessage();
@@ -60,6 +86,7 @@ if (is_file($root.'/vendor/autoload.php')) {
 }
 
 $lines[] = '';
-$lines[] = 'If Document root is NOT the folder that contains index.php, fix hPanel → Domains → Document root → .../public';
+$lines[] = 'Fix wrong document root: hPanel → Websites → gtechx.globaltechxsolutions.com →';
+$lines[] = '  Document root / Change folder → .../public_html/gtechx/public';
 
 echo implode("\n", $lines);
