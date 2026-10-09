@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         'App\\Console\\Commands\\WooCommercePushProducts',
         'App\Console\Commands\SendMeetingReminders',
         'App\Console\Commands\ProcessScheduledCampaigns',
+        'App\Console\Commands\EnsureApplicationStorage',
     ];
 
     /**
