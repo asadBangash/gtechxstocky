@@ -26,4 +26,9 @@ if (-not (Test-Path "node_modules")) {
     npm install
 }
 
+if (-not (Test-Path "public/js/.vite/manifest.json")) {
+    Write-Host "Vue assets missing — running npm run build..." -ForegroundColor Cyan
+    npm run build
+}
+
 Write-Host "Done. Document root should be: $(Resolve-Path 'public')" -ForegroundColor Green
