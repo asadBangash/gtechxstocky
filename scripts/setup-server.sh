@@ -44,4 +44,8 @@ php artisan config:cache
 php artisan route:cache 2>/dev/null || true
 php artisan view:cache 2>/dev/null || true
 
-echo "Done. Web root must point to: $(pwd)/public"
+echo ""
+echo "Done."
+echo "  Web root MUST be: $(pwd)/public"
+echo "  (Not public_html alone, not the folder that only has artisan.)"
+echo "  After deploy, open /deploy-check.php once, then delete public/deploy-check.php"
