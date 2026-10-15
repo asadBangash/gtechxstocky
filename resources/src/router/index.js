@@ -91,6 +91,7 @@ const ProfitAndLossReport = lazy('ProfitAndLossReport', () => import('../pages/r
 const ProfitReport = lazy('ProfitReport', () => import('../pages/reports/profit/ProfitReport.vue'));
 const AnalyticsReport = lazy('AnalyticsReport', () => import('../pages/reports/AnalyticsReport.vue'));
 const Sales = lazy('Sales', () => import('../pages/sales/Sales.vue'));
+const OperationalPayments = lazy('OperationalPayments', () => import('../pages/payments/OperationalPayments.vue'));
 const SaleDetails = lazy('SaleDetails', () => import('../pages/sales/SaleDetails.vue'));
 const SaleForm = lazy('SaleForm', () => import('../pages/sales/SaleForm.vue'));
 const Purchases = lazy('Purchases', () => import('../pages/purchases/Purchases.vue'));
@@ -710,12 +711,34 @@ const routes = [
             { path: 'marketing/reports', name: 'marketing-reports', component: MarketingReports, meta: { title: 'Marketing Reports', permission: 'marketing_reports' } },
             { path: 'marketing/settings', name: 'marketing-settings', component: MarketingSettings, meta: { title: 'Marketing Settings', permission: 'marketing_settings' } },
             { path: 'sales', name: 'sales', component: Sales, meta: { title: 'Sales', permission: 'Sales_view' } },
+            {
+                path: 'sales/payments-in',
+                name: 'sales-payments-in',
+                component: OperationalPayments,
+                meta: {
+                    title: 'Payment In',
+                    paymentKind: 'sale',
+                    permission: ['payment_sales_view', 'payment_sales_add', 'Reports_payments_Sales'],
+                },
+            },
+            { path: 'sales/payment-in', redirect: { name: 'sales-payments-in' } },
             { path: 'sales/create', name: 'sale-create', component: SaleForm, meta: { title: 'Add Sale', permission: 'Sales_add' } },
             { path: 'sales/import', name: 'sales-import', component: ImportSales, meta: { title: 'Import Sales', permission: 'Sales_add' } },
             { path: 'sales/:id(\\d+)/edit', name: 'sale-edit', component: SaleForm, meta: { title: 'Edit Sale', permission: 'Sales_edit' } },
             { path: 'sales/from-quotation/:id(\\d+)', name: 'sale-from-quotation', component: SaleForm, meta: { title: 'Create Sale', permission: 'Sales_add', mode: 'convert' } },
             { path: 'sales/:id(\\d+)', name: 'sale-details', component: SaleDetails, meta: { title: 'Sale Detail', permission: 'Sales_view' } },
             { path: 'purchases', name: 'purchases', component: Purchases, meta: { title: 'Purchases', permission: 'Purchases_view' } },
+            {
+                path: 'purchases/payments-out',
+                name: 'purchases-payments-out',
+                component: OperationalPayments,
+                meta: {
+                    title: 'Payment Out',
+                    paymentKind: 'purchase',
+                    permission: ['payment_purchases_view', 'payment_purchases_add', 'Reports_payments_Purchases'],
+                },
+            },
+            { path: 'purchases/payment-out', redirect: { name: 'purchases-payments-out' } },
             { path: 'purchases/create', name: 'purchase-create', component: PurchaseForm, meta: { title: 'Add Purchase', permission: 'Purchases_add' } },
             { path: 'purchases/import', name: 'purchases-import', component: ImportPurchases, meta: { title: 'Import Purchases', permission: 'Purchases_add' } },
             { path: 'purchases/:id(\\d+)/edit', name: 'purchase-edit', component: PurchaseForm, meta: { title: 'Edit Purchase', permission: 'Purchases_edit' } },

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\CustomEmail;
 use App\Models\Account;
+use App\Models\UserWarehouse;
+use App\Policies\PaymentPurchasePolicy;
 use App\Models\EmailMessage;
 use App\Models\PaymentMethod;
 use App\Models\PaymentPurchase;
@@ -36,7 +38,7 @@ class PaymentPurchasesController extends BaseController
 
     public function index(request $request)
     {
-        $this->authorizeForUser($request->user('api'), 'Reports_payments_Purchases', PaymentPurchase::class);
+        $this->authorizePaymentPurchaseIndex($request->user('api'));
 
         // How many items do you want to display.
         $perPage = $request->limit;
@@ -158,10 +160,15 @@ class PaymentPurchasesController extends BaseController
 
         foreach ($Payments as $Payment) {
 
+            $item['id'] = $Payment->id;
             $item['date'] = $Payment->date;
             $item['Ref'] = $Payment->Ref;
             $item['Ref_Purchase'] = $Payment['purchase']->Ref;
             $item['purchase_id'] = $Payment['purchase']->id;
+            $item['payment_method_id'] = $Payment->payment_method_id;
+            $item['account_id'] = $Payment->account_id;
+            $item['change'] = $Payment->change;
+            $item['notes'] = $Payment->notes;
             $item['provider_name'] = $Payment['purchase']['provider']->name;
             $item['payment_method'] = $Payment['payment_method']->name;
             $item['montant'] = $Payment->montant;
@@ -172,6 +179,7 @@ class PaymentPurchasesController extends BaseController
 
         $suppliers = provider::where('deleted_at', '=', null)->get(['id', 'name']);
         $purchases = Purchase::get(['Ref', 'id']);
+        $accounts = Account::where('deleted_at', '=', null)->orderBy('id', 'desc')->get(['id', 'account_name']);
         $payment_methods = PaymentMethod::active()->where('deleted_at', '=', null)->get(['id', 'name']);
 
         $methodNames = $payment_methods->pluck('name', 'id');
@@ -191,9 +199,19 @@ class PaymentPurchasesController extends BaseController
             'method_breakdown' => $method_breakdown,
             'purchases' => $purchases,
             'suppliers' => $suppliers,
+            'accounts' => $accounts,
             'payment_methods' => $payment_methods,
         ]);
 
+    }
+
+    private function authorizePaymentPurchaseIndex($user): void
+    {
+        $policy = app(PaymentPurchasePolicy::class);
+        if ($policy->Reports_payments_Purchases($user) || $policy->view($user) || $policy->create($user)) {
+            return;
+        }
+        abort(403, 'Unauthorized');
     }
 
     // ----------- Store New Payment Purchase --------------\\

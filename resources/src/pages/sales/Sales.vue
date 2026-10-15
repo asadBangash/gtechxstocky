@@ -143,8 +143,11 @@
                 <a-menu-item v-if="auth.can('payment_sales_view')" key="payments">
                   <WalletOutlined /> {{ $t('ShowPayment') }}
                 </a-menu-item>
-                <a-menu-item v-if="auth.can('payment_sales_add') && record.statut === 'completed'" key="pay">
-                  <PlusOutlined /> {{ $t('AddPayment') }}
+                <a-menu-item
+                  v-if="auth.can('payment_sales_add') && record.statut === 'completed' && Number(record.due) > 0"
+                  key="pay"
+                >
+                  <WalletOutlined /> {{ $t('Payment_In') }}
                 </a-menu-item>
                 <a-menu-item v-if="auth.can('shipment')" key="shipment">
                   <CarOutlined /> {{ $t('Edit_Shipping') }}
@@ -226,7 +229,7 @@
     <!-- ============ Add / edit payment modal ============ -->
     <a-modal
       v-model:open="payFormOpen"
-      :title="`${payEditing ? $t('Edit') : $t('AddPayment')} — ${activeSale?.Ref || ''}`"
+      :title="`${payEditing ? $t('EditPayment') : $t('Payment_In')} — ${activeSale?.Ref || ''}`"
       :confirm-loading="paySaving"
       :ok-text="$t('submit')"
       @ok="submitPayment"
@@ -350,6 +353,7 @@
         </template>
       </a-list>
     </a-modal>
+
   </div>
 </template>
 

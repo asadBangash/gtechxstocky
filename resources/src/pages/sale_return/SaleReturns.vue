@@ -3,6 +3,14 @@
     <PageHeader :title="$t('SalesReturn')" :breadcrumb="[$t('SalesReturn'), $t('ListReturns')]">
       <template #actions>
         <a-space wrap>
+          <a-button
+            v-if="auth.can('Sale_Returns_add')"
+            type="primary"
+            @click="openCreateReturn"
+          >
+            <template #icon><PlusOutlined /></template>
+            {{ $t('CreateSaleReturn') }}
+          </a-button>
           <a-button :loading="exporting === 'pdf'" @click="exportList('pdf')">
             <template #icon><FilePdfOutlined /></template>
             PDF
@@ -138,6 +146,27 @@
       :max-due="payMaxDue"
       @submit="submitPayment"
     />
+
+    <a-modal
+      v-model:open="createOpen"
+      :title="$t('CreateSaleReturn')"
+      :ok-text="$t('submit')"
+      :confirm-loading="createLoading"
+      @ok="confirmCreateReturn"
+    >
+      <a-form-item :label="$t('Choose_Sale_Ref')" required>
+        <a-select
+          v-model:value="createSaleId"
+          show-search
+          allow-clear
+          option-filter-prop="label"
+          :placeholder="$t('Choose_Sale_Ref')"
+          :options="eligibleSaleOptions"
+          :loading="createLoading"
+          style="width: 100%"
+        />
+      </a-form-item>
+    </a-modal>
   </div>
 </template>
 
@@ -149,8 +178,8 @@
  * nested returns/sale/delete/by_selection. Payments: returns/sale/payment/{id}
  * → {payments, due}; POST/PUT payment/returns_sale (flat, key sale_return_id);
  * The payment Ref is assigned server-side; receipt payment_return_sale_pdf.
- * Return PDF return_sale_pdf/{id}. Adding a return happens from the sales list
- * (legacy has no standalone create route), so no Add button here.
+ * Return PDF return_sale_pdf/{id}. Create from sales list or here via modal →
+ * /sale-returns/create/{saleId} (completed sales without an existing return).
  */
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -231,6 +260,52 @@ const columns = computed(() => [
 ]);
 
 const exporting = ref(null);
+
+const createOpen = ref(false);
+const createSaleId = ref(undefined);
+const createLoading = ref(false);
+const eligibleSaleOptions = ref([]);
+
+async function openCreateReturn() {
+  createOpen.value = true;
+  createSaleId.value = undefined;
+  createLoading.value = true;
+  try {
+    const data = await http.get('sales', {
+      page: 1,
+      limit: -1,
+      SortField: 'id',
+      SortType: 'desc',
+      Ref: '',
+      date: '',
+      client_id: '',
+      warehouse_id: '',
+      statut: '',
+      payment_statut: '',
+      shipping_status: '',
+    });
+    eligibleSaleOptions.value = (data.sales || [])
+      .filter(s => s.statut === 'completed' && s.sale_has_return === 'no')
+      .map(s => ({
+        value: s.id,
+        label: [s.Ref, s.client_name].filter(Boolean).join(' — '),
+      }));
+  } catch {
+    message.error(t('InvalidData'));
+    createOpen.value = false;
+  } finally {
+    createLoading.value = false;
+  }
+}
+
+function confirmCreateReturn() {
+  if (!createSaleId.value) {
+    message.warning(t('Choose_Sale_Ref'));
+    return Promise.reject();
+  }
+  createOpen.value = false;
+  router.push(`/sale-returns/create/${createSaleId.value}`);
+}
 
 async function exportList(kind) {
   exporting.value = kind;

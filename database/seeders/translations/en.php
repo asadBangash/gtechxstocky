@@ -1536,6 +1536,8 @@ return [
 'pos.will_be_applied' => 'will be applied',
 'Payment_Sent' => 'Payment Sent',
 'Payment_Received' => 'Payment Received',
+'Payment_In' => 'Payment In',
+'Payment_Out' => 'Payment Out',
 'Welcome_back_message' => 'Welcome back, {username}! Here\'s what\'s happening today.',
 'No_dashboard_permission' => 'You don\'t have permission to view the dashboard.',
 'Edit_Payment' => 'Edit Payment',

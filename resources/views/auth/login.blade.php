@@ -804,7 +804,7 @@
                 <span class="input-icon">
                   <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </span>
-                <input id="password" class="form-input" type="password" name="password" placeholder="{{ tdb('Password_placeholder', 'Enter your password') }}" required />
+                <input id="password" class="form-input" type="password" name="password" autocomplete="current-password" value="{{ old('password', !empty($demoShopEnabled) ? '123456' : '') }}" placeholder="{{ tdb('Password_placeholder', 'Enter your password') }}" required />
                 <button type="button" class="toggle-password" data-target="password" aria-label="{{ tdb('Toggle_password_visibility', 'Toggle password visibility') }}">
                   <svg class="eye-open" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   <svg class="eye-closed" viewBox="0 0 24 24" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -872,55 +872,14 @@
           submitBtn.querySelector('.btn-loading').style.display = 'none';
         }
 
-        var submitted = false;
-        form.addEventListener('submit', function(e) {
-          if (submitted) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return;
-          }
-
-          // Always refresh the CSRF token right before submit. This protects
-          // against stale tokens from cached HTML (bfcache, browser cache,
-          // service-worker shell) which were causing 419 Page Expired.
-          e.preventDefault();
-          submitted = true;
+        // POST /login is CSRF-exempt (VerifyCsrfToken). Submit normally so the
+        // form is never stuck on "Signing in..." if /csrf-token is slow or fails.
+        form.addEventListener('submit', function() {
           setBusy();
-
-          fetch('/csrf-token', {
-            method: 'GET',
-            credentials: 'same-origin',
-            cache: 'no-store',
-            headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
-          })
-          .then(function(r) { return r.ok ? r.json() : null; })
-          .then(function(data) {
-            if (data && data.token) {
-              var input = form.querySelector('input[name="_token"]');
-              if (input) input.value = data.token;
-              var meta = document.querySelector('meta[name="csrf-token"]');
-              if (meta) meta.setAttribute('content', data.token);
-            }
-          })
-          .catch(function() {})
-          .finally(function() {
-            form.submit();
-          });
         });
 
-        submitBtn.addEventListener('click', function(e) {
-          if (submitted) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-          }
-        });
-
-        // If the browser restores this page from bfcache (back/forward), the
-        // CSRF token inside the form may be stale. Reset UI so the submit
-        // handler runs again and refreshes the token.
         window.addEventListener('pageshow', function(ev) {
           if (ev.persisted) {
-            submitted = false;
             clearBusy();
           }
         });

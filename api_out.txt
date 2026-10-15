@@ -1,0 +1,253 @@
+{
+    "message": "The payload is invalid.",
+    "exception": "Illuminate\\Contracts\\Encryption\\DecryptException",
+    "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\Encrypter.php",
+    "line": 244,
+    "trace": [
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Encryption\\Encrypter.php",
+            "line": 157,
+            "function": "getJsonPayload",
+            "class": "Illuminate\\Encryption\\Encrypter",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\passport\\src\\Guards\\TokenGuard.php",
+            "line": 333,
+            "function": "decrypt",
+            "class": "Illuminate\\Encryption\\Encrypter",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\passport\\src\\Guards\\TokenGuard.php",
+            "line": 318,
+            "function": "getTokenFromRequest",
+            "class": "Laravel\\Passport\\Guards\\TokenGuard",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\passport\\src\\Guards\\TokenGuard.php",
+            "line": 282,
+            "function": "validCsrf",
+            "class": "Laravel\\Passport\\Guards\\TokenGuard",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\passport\\src\\Guards\\TokenGuard.php",
+            "line": 250,
+            "function": "getTokenViaCookie",
+            "class": "Laravel\\Passport\\Guards\\TokenGuard",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\passport\\src\\Guards\\TokenGuard.php",
+            "line": 122,
+            "function": "authenticateViaCookie",
+            "class": "Laravel\\Passport\\Guards\\TokenGuard",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\GuardHelpers.php",
+            "line": 56,
+            "function": "user",
+            "class": "Laravel\\Passport\\Guards\\TokenGuard",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php",
+            "line": 82,
+            "function": "check",
+            "class": "Laravel\\Passport\\Guards\\TokenGuard",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Auth\\Middleware\\Authenticate.php",
+            "line": 61,
+            "function": "authenticate",
+            "class": "Illuminate\\Auth\\Middleware\\Authenticate",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Auth\\Middleware\\Authenticate",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 137,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 821,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 800,
+            "function": "runRouteWithinStack",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 764,
+            "function": "runRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+            "line": 753,
+            "function": "dispatchToRoute",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 200,
+            "function": "dispatch",
+            "class": "Illuminate\\Routing\\Router",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 180,
+            "function": "Illuminate\\Foundation\\Http\\{closure}",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\app\\Http\\Middleware\\SetSessionConfig.php",
+            "line": 48,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "App\\Http\\Middleware\\SetSessionConfig",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 21,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php",
+            "line": 31,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+            "line": 21,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php",
+            "line": 51,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\ValidatePostSize.php",
+            "line": 27,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Http\\Middleware\\ValidatePostSize",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\app\\Http\\Middleware\\CheckInstalled.php",
+            "line": 21,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "App\\Http\\Middleware\\CheckInstalled",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php",
+            "line": 109,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 219,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+            "line": 137,
+            "function": "Illuminate\\Pipeline\\{closure}",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 175,
+            "function": "then",
+            "class": "Illuminate\\Pipeline\\Pipeline",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+            "line": 144,
+            "function": "sendRequestThroughRouter",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        },
+        {
+            "file": "D:\\laragon\\www\\gtechstocky\\public\\index.php",
+            "line": 52,
+            "function": "handle",
+            "class": "Illuminate\\Foundation\\Http\\Kernel",
+            "type": "->"
+        }
+    ]
+}

@@ -3,6 +3,14 @@
     <PageHeader :title="$t('PurchasesReturn')" :breadcrumb="[$t('PurchasesReturn'), $t('ListReturns')]">
       <template #actions>
         <a-space wrap>
+          <a-button
+            v-if="auth.can('Purchase_Returns_add')"
+            type="primary"
+            @click="openCreateReturn"
+          >
+            <template #icon><PlusOutlined /></template>
+            {{ $t('CreatePurchaseReturn') }}
+          </a-button>
           <a-button :loading="exporting === 'pdf'" @click="exportList('pdf')">
             <template #icon><FilePdfOutlined /></template>
             PDF
@@ -138,6 +146,27 @@
       :max-due="payMaxDue"
       @submit="submitPayment"
     />
+
+    <a-modal
+      v-model:open="createOpen"
+      :title="$t('CreatePurchaseReturn')"
+      :ok-text="$t('submit')"
+      :confirm-loading="createLoading"
+      @ok="confirmCreateReturn"
+    >
+      <a-form-item :label="$t('Choose_Purchase_Ref')" required>
+        <a-select
+          v-model:value="createPurchaseId"
+          show-search
+          allow-clear
+          option-filter-prop="label"
+          :placeholder="$t('Choose_Purchase_Ref')"
+          :options="eligiblePurchaseOptions"
+          :loading="createLoading"
+          style="width: 100%"
+        />
+      </a-form-item>
+    </a-modal>
   </div>
 </template>
 
@@ -230,6 +259,51 @@ const columns = computed(() => [
 ]);
 
 const exporting = ref(null);
+
+const createOpen = ref(false);
+const createPurchaseId = ref(undefined);
+const createLoading = ref(false);
+const eligiblePurchaseOptions = ref([]);
+
+async function openCreateReturn() {
+  createOpen.value = true;
+  createPurchaseId.value = undefined;
+  createLoading.value = true;
+  try {
+    const data = await http.get('purchases', {
+      page: 1,
+      limit: -1,
+      SortField: 'id',
+      SortType: 'desc',
+      Ref: '',
+      date: '',
+      provider_id: '',
+      warehouse_id: '',
+      statut: '',
+      payment_statut: '',
+    });
+    eligiblePurchaseOptions.value = (data.purchases || [])
+      .filter(p => p.statut === 'received' && p.purchase_has_return === 'no')
+      .map(p => ({
+        value: p.id,
+        label: [p.Ref, p.provider_name].filter(Boolean).join(' — '),
+      }));
+  } catch {
+    message.error(t('InvalidData'));
+    createOpen.value = false;
+  } finally {
+    createLoading.value = false;
+  }
+}
+
+function confirmCreateReturn() {
+  if (!createPurchaseId.value) {
+    message.warning(t('Choose_Purchase_Ref'));
+    return Promise.reject();
+  }
+  createOpen.value = false;
+  router.push(`/purchase-returns/create/${createPurchaseId.value}`);
+}
 
 async function exportList(kind) {
   exporting.value = kind;

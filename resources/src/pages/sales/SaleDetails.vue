@@ -22,6 +22,14 @@
             <template #icon><EditOutlined /></template>
             {{ $t('EditSale') }}
           </a-button>
+          <a-button
+            v-if="auth.can('payment_sales_add') && sale.statut === 'completed' && Number(sale.due) > 0"
+            type="primary"
+            @click="goPaymentIn"
+          >
+            <template #icon><WalletOutlined /></template>
+            {{ $t('Payment_In') }}
+          </a-button>
           <a-button :loading="sendingEmail" @click="sendEmail">
             <template #icon><MailOutlined /></template>
             {{ $t('Email') }}
@@ -199,7 +207,7 @@ import { message, Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n';
 import {
   ArrowLeftOutlined, PrinterOutlined, EditOutlined, DeleteOutlined,
-  ExclamationCircleOutlined, MailOutlined, MessageOutlined, FilePdfOutlined,
+  ExclamationCircleOutlined, MailOutlined, MessageOutlined, FilePdfOutlined, WalletOutlined,
 } from '@ant-design/icons-vue';
 import PageHeader from '../../components/PageHeader.vue';
 import { useFormat } from '../../composables/useFormat';
@@ -255,6 +263,10 @@ const itemColumns = computed(() => [
 
 function printInvoice() {
   window.print();
+}
+
+function goPaymentIn() {
+  router.push({ path: '/sales/payments-in', query: { sale_id: sale.value.id } });
 }
 
 // Same endpoints as legacy detail_sale.vue.

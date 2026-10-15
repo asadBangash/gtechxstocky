@@ -287,9 +287,11 @@ export const MIGRATED_ROUTES = {
     '/app/reports/analytics_report': '/reports/analytics',
     '/app/sales/store': '/sales/create',
     '/app/sales/list': '/sales',
+    '/app/sales/payment_in': '/sales/payments-in',
     '/app/pos': '/pos',
     '/app/purchases/store': '/purchases/create',
     '/app/purchases/list': '/purchases',
+    '/app/purchases/payment_out': '/purchases/payments-out',
     '/app/quotations/store': '/quotations/create',
     '/app/quotations/list': '/quotations',
     '/app/sale_return/list': '/sale-returns',
@@ -420,6 +422,7 @@ export const MENU = [
         children: [
             { label: 'ListSales', to: '/app/sales/list', permissions: ['Sales_view'] },
             { label: 'AddSale', to: '/app/sales/store', permissions: ['Sales_add'] },
+            { label: 'Payment_In', to: '/app/sales/payment_in', permissions: ['payment_sales_add'] },
             { label: 'Import_Sales', to: '/app/sales/import_sales', permissions: ['Sales_add'] },
             { label: 'POS', to: '/app/pos', permissions: ['Pos_view'] },
             { label: 'Customer_Screen', to: '/app/customer-display/setup', permissions: ['customer_display_screen_setup'] },
@@ -454,6 +457,7 @@ export const MENU = [
         children: [
             { label: 'AddPurchase', to: '/app/purchases/store', permissions: ['Purchases_add'] },
             { label: 'ListPurchases', to: '/app/purchases/list', permissions: ['Purchases_view'] },
+            { label: 'Payment_Out', to: '/app/purchases/payment_out', permissions: ['payment_purchases_add'] },
             { label: 'Import_Purchases', to: '/app/purchases/import_purchases', permissions: ['Purchases_add'] },
         ],
     },

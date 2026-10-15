@@ -1,0 +1,12 @@
+HTTP/1.1 302 Found
+Date: Thu, 15 Oct 2026 07:30:32 GMT
+Server: Apache/2.4.62 (Win64) OpenSSL/3.1.7 PHP/8.3.30
+X-Powered-By: PHP/8.3.30
+Cache-Control: no-cache, private
+Location: http://gtechstocky.test/next
+X-RateLimit-Limit: 5
+X-RateLimit-Remaining: 4
+Set-Cookie: web_session=eyJpdiI6ImtKd09tWlNXcEE5c3JpMkNRWVlzVlE9PSIsInZhbHVlIjoiTlgxNGJ5YXVwb1Z0ZWxBTWd3K1h1a05scEhUVEUxdFQxeFp4RDMxL1JQTWd6cUlNd3FwRVpQM2l6WUVjeFhwNSt5N3pkSWgwV0VBYWFoWEQ0MXUyR1VuU0hFbDArRTlPckUvR2k3R0psS2s1bjdQbmZDK2pQcytLU1hRUnE5d0IiLCJtYWMiOiIxYzFhM2VkZDM4MWVmOWM4ZDk3ZGFkNjhlZDM3MGE5NDAxYTBiOGRiNTE0NGZjOTUyNmIzZWRmNjU0NGZiMjFmIiwidGFnIjoiIn0%3D; expires=Fri, 15 Oct 2027 07:30:34 GMT; Max-Age=31536000; path=/; httponly; samesite=lax
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=utf-8
+

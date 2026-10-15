@@ -58,10 +58,6 @@ class LoginController extends Controller
                 $activeShop = $demoShops->apply($request->query('shop')) ?? session('demo_shop_preset');
             } else {
                 $activeShop = session('demo_shop_preset');
-                if (! $activeShop) {
-                    $activeShop = 'all_in_one';
-                    $demoShops->apply($activeShop);
-                }
             }
         }
 
