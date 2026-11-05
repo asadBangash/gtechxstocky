@@ -102,7 +102,7 @@ class DemoShopPresetService
             $store->forceFill([
                 'enabled' => 1,
                 'theme' => 'default',
-                'store_name' => 'Stocky Demo — All In One',
+                'store_name' => 'G-TechX Demo — All In One',
             ])->save();
         }
 

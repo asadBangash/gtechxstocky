@@ -1295,7 +1295,7 @@ class SettingsController extends Controller
      */
     /** The sample label printed by Test Print, in both render modes. */
     const LABEL_TEST_SAMPLE = [
-        'name' => 'Stocky Test Label',
+        'name' => 'G-TechX Test Label',
         'barcode' => '628112345678',
         'Type_barcode' => 'CODE128',
         'Net_price' => '49.99',
@@ -2021,7 +2021,7 @@ class SettingsController extends Controller
         $bust192 = file_exists($icon192Path) ? filemtime($icon192Path) : null;
         $bust512 = file_exists($icon512Path) ? filemtime($icon512Path) : null;
 
-        $appName = $setting->app_name ?? 'Stocky';
+        $appName = $setting->app_name ?? config('branding.app_name_display', 'G-TechX');
         $fallbackShortName = trim(explode('|', (string) ($setting->pwa_name ?? '') ?: $appName)[0]);
 
         return response()->json([
@@ -2286,7 +2286,7 @@ class SettingsController extends Controller
             }
         }
 
-        // Uploads live in public/images like every other Stocky upload.
+        // Uploads live in public/images like other branding uploads.
         if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
             $dir = public_path('images');
             if (! file_exists($dir)) {

@@ -42,7 +42,7 @@ class MobileAuthController extends BaseController
 
         return response()->json([
             'ok' => true,
-            'server' => 'stocky',
+            'server' => 'gtechx',
             'api_version' => (int) config('mobile.api_version'),
             'min_app_version' => $minVersion,
             'app_name' => $settings->mobile_app_name

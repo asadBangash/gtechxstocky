@@ -32,8 +32,8 @@ class PwaManifestController extends Controller
     protected array $surfaces = [
         'app' => [
             'suffix' => null,
-            'short_name' => 'Stocky',
-            'description' => 'Ultimate Inventory with POS',
+            'short_name' => config('branding.app_name_display', 'G-TechX'),
+            'description' => config('branding.pwa_description', 'G-TechX business management'),
             'start_url' => '/',
             'scope' => '/',
             'display' => 'standalone',
@@ -147,7 +147,7 @@ class PwaManifestController extends Controller
         $name = $this->value($setting, 'pwa_name')
             ?: $this->value($setting, 'app_name');
 
-        return $name !== '' ? $name : 'Stocky';
+        return $name !== '' ? $name : config('branding.app_name_display', 'G-TechX');
     }
 
     /**

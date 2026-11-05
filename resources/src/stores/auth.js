@@ -40,7 +40,7 @@ export const useAuthStore = defineStore('auth', {
 
         // ---- Branding (settings) — the same fields the legacy layout reads ----
         // Company name, blank when the admin chose to hide the site name.
-        companyName: s => (s.user && !s.user.hide_site_name ? (s.user.company || 'Stocky') : ''),
+        companyName: s => (s.user && !s.user.hide_site_name ? (s.user.company || 'G-TechX') : ''),
         // Uploaded logo under /images/, or null to fall back to an initial.
         logoUrl: s => (s.user && s.user.logo ? `/images/${s.user.logo}` : null),
         // Admin toggle: hide the logo/initial in the sidebar brand entirely.
@@ -51,10 +51,10 @@ export const useAuthStore = defineStore('auth', {
             height: ((s.user && s.user.sidebar_logo_height) || 32) + 'px',
         }),
         // First letter of the company, the legacy placeholder when there's no logo.
-        brandInitial: s => ((s.user && s.user.company && s.user.company[0]) || 'S').toUpperCase(),
+        brandInitial: s => ((s.user && s.user.company && s.user.company[0]) || 'G').toUpperCase(),
         // Custom footer line and the "developed by" credit.
         footerText: s => (s.user && s.user.footer) || '',
-        developedBy: s => (s.user && s.user.developed_by) || 'Stocky',
+        developedBy: s => (s.user && s.user.developed_by) || 'G-TechX',
         // Admin module toggles (System Settings → Modules). Null map or a
         // missing key = module enabled, so fresh installs show everything.
         moduleEnabled: s => key => isModuleEnabled(s.user && s.user.module_flags, key),

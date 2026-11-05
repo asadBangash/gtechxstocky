@@ -12,18 +12,18 @@
 
     @include('partials.pwa-head')
 
-    <title>{{ $app_settings->app_name ?? 'Stocky | Ultimate Inventory With POS' }}</title>
+    <title>{{ $app_settings->app_name ?? config('branding.app_name_display') }}</title>
 
     {{-- Expose the configured app name so the SPA can use it as the default document title
          immediately on boot (before the authenticated user/settings are fetched). --}}
-    <script>window.__APP_NAME__ = @json($app_settings->app_name ?? 'Stocky | Ultimate Inventory With POS');</script>
+    <script>window.__APP_NAME__ = @json($app_settings->app_name ?? config('branding.app_name_display'));</script>
 
   </head>
 
   <body class="text-left">
     <noscript>
       <strong>
-        We're sorry but Stocky doesn't work properly without JavaScript
+        This application requires JavaScript to run.
         enabled. Please enable it to continue.</strong
       >
     </noscript>

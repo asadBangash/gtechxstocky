@@ -289,7 +289,13 @@ class AutoUpdateController extends Controller
 
     private function getLastVersion()
     {
-        $content = file_get_contents('https://update-stocky.ui-lib.com/stocky_version.json');
+        if (! config('branding.vendor_updates_enabled', false)) {
+            return null;
+        }
+        $content = @file_get_contents('https://update-stocky.ui-lib.com/stocky_version.json');
+        if ($content === false) {
+            return null;
+        }
 
         return json_decode($content, true);
     }
@@ -1042,17 +1048,21 @@ class AutoUpdateController extends Controller
         foreach ($paths as $k => $p) {
             $perms[$k] = ['path' => $p, 'writable' => is_writable($p)];
         }
-        // Network/version JSON
-        $net = ['ok' => false, 'error' => null];
-        try {
-            $ctx = stream_context_create(['http' => ['timeout' => 10], 'https' => ['timeout' => 10]]);
-            $json = @file_get_contents('https://update-stocky.ui-lib.com/stocky_version.json', false, $ctx);
-            if ($json !== false) {
-                $net['ok'] = true;
-                $net['size'] = strlen($json);
+        // Network/version JSON (vendor CDN — skipped when disabled)
+        $net = ['ok' => false, 'error' => null, 'skipped' => ! config('branding.vendor_updates_enabled', false)];
+        if (! $net['skipped']) {
+            try {
+                $ctx = stream_context_create(['http' => ['timeout' => 10], 'https' => ['timeout' => 10]]);
+                $json = @file_get_contents('https://update-stocky.ui-lib.com/stocky_version.json', false, $ctx);
+                if ($json !== false) {
+                    $net['ok'] = true;
+                    $net['size'] = strlen($json);
+                }
+            } catch (\Throwable $e) {
+                $net['error'] = $e->getMessage();
             }
-        } catch (\Throwable $e) {
-            $net['error'] = $e->getMessage();
+        } else {
+            $net['ok'] = true;
         }
         // Disk space
         $freeBase = @disk_free_space(base_path());

@@ -10,7 +10,7 @@
     {{-- PWA --}}
     @include('partials.pwa-head')
 
-    <title>{{ $app_settings->app_name ?? 'Stocky | Ultimate Inventory With POS' }}</title>
+    <title>{{ $app_settings->app_name ?? config('branding.app_name_display') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -734,7 +734,7 @@
         <div class="auth-card">
           <header class="auth-card-header">
             <div class="auth-logo">
-              <img src="{{ asset('images/' . ($app_settings->logo ?? 'logo.png')) }}" alt="{{ $app_settings->app_name ?? 'Stocky' }}">
+              <img src="{{ asset('images/' . ($app_settings->logo ?? config('branding.logo_file'))) }}" alt="{{ $app_settings->app_name ?? config('branding.app_name_display') }}">
             </div>
             <h2 class="auth-card-title">{{ login_text($app_settings->login_panel_title, 'Login_panel_title', 'Welcome back') }}</h2>
             <p class="auth-card-subtitle">
@@ -835,7 +835,7 @@
           @endif
 
           <div class="auth-footer">
-            {{ $app_settings->login_footer_text ?: '© ' . date('Y') . ' ' . ($app_settings->app_name ?? 'Stocky') . '. ' . tdb('All_rights_reserved', 'All rights reserved') . '.' }}
+            {{ $app_settings->login_footer_text ?: '© ' . date('Y') . ' ' . ($app_settings->app_name ?? config('branding.app_name_display')) . '. ' . tdb('All_rights_reserved', 'All rights reserved') . '.' }}
           </div>
         </div>
       </section>

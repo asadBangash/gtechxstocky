@@ -114,7 +114,7 @@
                 </a-col>
                 <a-col :xs="24" :md="12">
                   <a-form-item :label="$t('footer')" :help="'Shown in the app footer bar. Leave empty for the default copyright line.'">
-                    <a-input v-model:value="setting.footer" :placeholder="`© ${new Date().getFullYear()} Stocky. All rights reserved.`" />
+                    <a-input v-model:value="setting.footer" :placeholder="`© ${new Date().getFullYear()} G-TechX. All rights reserved.`" />
                   </a-form-item>
                 </a-col>
                 <a-col :xs="24" :md="12">

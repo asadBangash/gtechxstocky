@@ -25,6 +25,9 @@ class UpdateController extends Controller
         $changelog = [];
 
         try {
+            if (! config('branding.vendor_updates_enabled', false)) {
+                throw new \RuntimeException('Vendor update channel disabled');
+            }
             $ctx = stream_context_create([
                 'http' => ['timeout' => 10],
                 'https' => ['timeout' => 10],
