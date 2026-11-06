@@ -29,6 +29,8 @@
 @if ($pwaOn)
     <link rel="manifest" href="{{ $pwaManifestUrl }}">
     <meta name="theme-color" content="{{ $themeColor ?? $pwaTheme }}">
+    {{-- Chrome deprecation: prefer mobile-web-app-capable alongside Apple tag --}}
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="{{ $statusBar ?? 'default' }}">
     <meta name="apple-mobile-web-app-title" content="{{ $appTitle ?? $pwaName }}">

@@ -37,6 +37,22 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
+| Trust proxies (Hostinger, Cloudflare, etc.) before Request::capture()
+|--------------------------------------------------------------------------
+|
+| So X-Forwarded-Proto: https is honored and $request->secure() is true
+| when the client used HTTPS. Required for ForceHttpsIfAppUrlSecure and PWA.
+|
+*/
+$basePath = dirname(__DIR__);
+require_once $basePath.'/app/Support/configure_trusted_proxies.php';
+if (class_exists(\Dotenv\Dotenv::class) && is_file($basePath.'/.env')) {
+    \Dotenv\Dotenv::createImmutable($basePath)->safeLoad();
+}
+configure_trusted_proxies_from_env();
+
+/*
+|--------------------------------------------------------------------------
 | Run The Application
 |--------------------------------------------------------------------------
 |
