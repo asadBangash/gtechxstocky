@@ -255,16 +255,24 @@ function isStandaloneDisplay() {
 
 const showInstallApp = computed(() => !isStandaloneDisplay());
 
+/** When DB/API has no `Install_App_Help` row, vue-i18n returns the key string (truthy), so never rely on `|| fallback`. */
+const INSTALL_APP_HELP_FALLBACK =
+  'Install needs a secure context (HTTPS, or http://localhost only). On http://your-site.test the browser will not offer install — enable SSL in Laragon or use Chrome menu (⋮) → Install if available. Configure icons under Settings → PWA.';
+
+function installAppHelpText() {
+  const tr = String(t('Install_App_Help') || '');
+  if (!tr || tr === 'Install_App_Help') {
+    return INSTALL_APP_HELP_FALLBACK;
+  }
+  return tr;
+}
+
 function onInstallApp() {
   if (pwaCanInstall.value) {
     promptInstall();
     return;
   }
-  message.info(
-    t('Install_App_Help')
-      || 'Use this site over HTTPS in Chrome or Edge, then click Install from the browser menu (or wait for the install prompt). Configure icons under Settings → PWA.',
-    8,
-  );
+  message.info(installAppHelpText(), 10);
 }
 
 const summaryOpen = ref(false);

@@ -4383,6 +4383,7 @@ return [
 'Feed_To_Tear' => 'Feed to tear edge',
 'Feed_To_Tear_Hint' => 'Advances the label to the tear bar after each job. Leave OFF if labels print shifted downward or split across stickers — many printers do not reverse back before the next label.',
 'Install_App' => 'Install App',
+'Install_App_Help' => 'Install needs a secure site: use HTTPS (or localhost). In Chrome/Edge open the menu (⋮) → Install app, or use the address-bar install icon. On HTTP custom domains the browser will not offer install — enable SSL in Laragon or use https://127.0.0.1. Configure icons under Settings → PWA.',
 'pos.Cart_Restored' => 'Your cart was restored',
 'pos.Draft_Saved_Offline' => 'Draft saved offline. It will sync when you are back online.',
 'pos.Client_Saved_Offline' => 'Customer saved offline. They will sync when you are back online.',
