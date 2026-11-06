@@ -29,11 +29,12 @@ class PwaManifestController extends Controller
      * their look is dictated by the screen they run on (a customer display is
      * deliberately dark and fullscreen, for example).
      */
+    // Property defaults must be constant expressions — no config() here (PHP fatal).
     protected array $surfaces = [
         'app' => [
             'suffix' => null,
-            'short_name' => config('branding.app_name_display', 'G-TechX'),
-            'description' => config('branding.pwa_description', 'G-TechX business management'),
+            'short_name' => 'G-TechX',
+            'description' => 'G-TechX business management',
             'start_url' => '/',
             'scope' => '/',
             'display' => 'standalone',

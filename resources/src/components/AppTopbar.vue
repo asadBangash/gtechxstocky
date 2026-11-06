@@ -255,16 +255,37 @@ function isStandaloneDisplay() {
 
 const showInstallApp = computed(() => !isStandaloneDisplay());
 
-/** When DB/API has no `Install_App_Help` row, vue-i18n returns the key string (truthy), so never rely on `|| fallback`. */
-const INSTALL_APP_HELP_FALLBACK =
-  'Install needs a secure context (HTTPS, or http://localhost only). On http://your-site.test the browser will not offer install — enable SSL in Laragon or use Chrome menu (⋮) → Install if available. Configure icons under Settings → PWA.';
+/**
+ * PWA install ≠ downloading a file. Chrome must offer `beforeinstallprompt`; if it
+ * has not, we explain by context (HTTP vs HTTPS).
+ */
+const INSTALL_HELP_HTTP =
+  'This address is not secure (HTTP). Install only works on HTTPS (or http://localhost / http://127.0.0.1). Enable SSL for your vhost (Laragon) or open the https:// URL. Then use ⋮ → Install app or the address-bar install icon. Configure icons under Settings → PWA.';
+
+const INSTALL_HELP_HTTPS_NO_PROMPT =
+  'The browser has not offered an install dialog yet (this is normal on first visits). Try Chrome menu (⋮) → Save and share → Install, or the install icon in the address bar. Reload once; ensure Settings → PWA is ON and icons are set. If it still fails, DevTools → Application → Manifest lists what is missing.';
 
 function installAppHelpText() {
-  const tr = String(t('Install_App_Help') || '');
-  if (!tr || tr === 'Install_App_Help') {
-    return INSTALL_APP_HELP_FALLBACK;
+  const secure =
+    typeof window !== 'undefined'
+    && (window.isSecureContext === true
+      || location.protocol === 'https:'
+      || location.hostname === 'localhost'
+      || location.hostname === '127.0.0.1');
+
+  if (!secure) {
+    const tr = String(t('Install_App_Help_Http') || '');
+    if (tr && tr !== 'Install_App_Help_Http') {
+      return tr;
+    }
+    return INSTALL_HELP_HTTP;
   }
-  return tr;
+
+  const tr = String(t('Install_App_Help') || '');
+  if (tr && tr !== 'Install_App_Help') {
+    return tr;
+  }
+  return INSTALL_HELP_HTTPS_NO_PROMPT;
 }
 
 function onInstallApp() {
